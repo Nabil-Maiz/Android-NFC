@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     String[][] mTechLists;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,55 +39,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         Toast.makeText(this, "Card detected !",Toast.LENGTH_SHORT).show();
-        resolveIntent(intent);
-    }
 
-    protected void resolveIntent(Intent intent) {
-
-        String action = intent.getAction();
-        String datas = "";
-
-        if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) {
-
-            Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            Toast.makeText(this,"Etudiant : Nabil Maiz",Toast.LENGTH_SHORT).show();
-
-//            MifareClassic mfc = MifareClassic.get(tagFromIntent);
-//            byte[] data;
-
-//            try {       //  5.1) Connect to card
-//                mfc.connect();
-//                boolean auth = false;
-//                String cardData = null;
-//
-//                int secCount = mfc.getSectorCount();
-//                int bCount = 0;
-//                int bIndex = 0;
-//                for (int j = 0; j < secCount; j++) {
-//
-//                    auth = mfc.authenticateSectorWithKeyA(j, MifareClassic.KEY_DEFAULT);
-//                    Toast.makeText(this, "AUTH ! " + auth,Toast.LENGTH_SHORT).show();
-//                    if (auth) {
-//
-//                        bCount = mfc.getBlockCountInSector(j);
-//                        bIndex = 0;
-//                        for (int i = 0; i < bCount; i++) {
-//                            bIndex = mfc.sectorToBlock(j);
-//
-//                            data = mfc.readBlock(bIndex);
-//
-//                            datas += getHexString(data);
-//                            Log.i("TAG", getHexString(data));
-//                            bIndex++;
-//                        }
-//                    } else { // Authentication failed - Handle it
-//                        Toast.makeText(this, "authentication failed", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//                Toast.makeText(this,datas,Toast.LENGTH_LONG).show();
-//            } catch (IOException e) {
-//                Toast.makeText(this, "Error : " + e.getMessage(), Toast.LENGTH_LONG).show();
-//            }
+        if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction())) {
+            Toast.makeText(this, "Etudiant : Nabil Maiz", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "Error : Can't read card.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -121,19 +76,5 @@ public class MainActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
         mAdapter.disableForegroundDispatch(this);
-    }
-
-    public String getHexString(byte[] raw)
-            throws UnsupportedEncodingException
-    {
-        char[] hex = new char[2 * raw.length];
-        int index = 0;
-
-        for (byte b : raw) {
-            int v = b & 0xFF;
-            hex[index++] = Character.forDigit(v >>> 4, 16);
-            hex[index++] = Character.forDigit(v & 0xF, 16);
-        }
-        return new String(hex);
     }
 }
