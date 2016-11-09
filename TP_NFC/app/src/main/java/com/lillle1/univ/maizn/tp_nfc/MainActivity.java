@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        Toast.makeText(this, "Intent !",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Card detected !",Toast.LENGTH_SHORT).show();
         resolveIntent(intent);
     }
 
@@ -51,43 +51,44 @@ public class MainActivity extends AppCompatActivity {
         if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) {
 
             Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+            Toast.makeText(this,"Etudiant : Nabil Maiz",Toast.LENGTH_SHORT).show();
 
-            MifareClassic mfc = MifareClassic.get(tagFromIntent);
-            byte[] data;
+//            MifareClassic mfc = MifareClassic.get(tagFromIntent);
+//            byte[] data;
 
-            try {       //  5.1) Connect to card
-                mfc.connect();
-                boolean auth = false;
-                String cardData = null;
-
-                int secCount = mfc.getSectorCount();
-                int bCount = 0;
-                int bIndex = 0;
-                for (int j = 0; j < secCount; j++) {
-
-                    auth = mfc.authenticateSectorWithKeyA(j, MifareClassic.KEY_DEFAULT);
-                    Toast.makeText(this, "AUTH ! " + auth,Toast.LENGTH_SHORT).show();
-                    if (auth) {
-
-                        bCount = mfc.getBlockCountInSector(j);
-                        bIndex = 0;
-                        for (int i = 0; i < bCount; i++) {
-                            bIndex = mfc.sectorToBlock(j);
-
-                            data = mfc.readBlock(bIndex);
-
-                            datas += getHexString(data);
-                            Log.i("TAG", getHexString(data));
-                            bIndex++;
-                        }
-                    } else { // Authentication failed - Handle it
-                        Toast.makeText(this, "authentication failed", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                Toast.makeText(this,datas,Toast.LENGTH_LONG).show();
-            } catch (IOException e) {
-                Toast.makeText(this, "Error : " + e.getMessage(), Toast.LENGTH_LONG).show();
-            }
+//            try {       //  5.1) Connect to card
+//                mfc.connect();
+//                boolean auth = false;
+//                String cardData = null;
+//
+//                int secCount = mfc.getSectorCount();
+//                int bCount = 0;
+//                int bIndex = 0;
+//                for (int j = 0; j < secCount; j++) {
+//
+//                    auth = mfc.authenticateSectorWithKeyA(j, MifareClassic.KEY_DEFAULT);
+//                    Toast.makeText(this, "AUTH ! " + auth,Toast.LENGTH_SHORT).show();
+//                    if (auth) {
+//
+//                        bCount = mfc.getBlockCountInSector(j);
+//                        bIndex = 0;
+//                        for (int i = 0; i < bCount; i++) {
+//                            bIndex = mfc.sectorToBlock(j);
+//
+//                            data = mfc.readBlock(bIndex);
+//
+//                            datas += getHexString(data);
+//                            Log.i("TAG", getHexString(data));
+//                            bIndex++;
+//                        }
+//                    } else { // Authentication failed - Handle it
+//                        Toast.makeText(this, "authentication failed", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//                Toast.makeText(this,datas,Toast.LENGTH_LONG).show();
+//            } catch (IOException e) {
+//                Toast.makeText(this, "Error : " + e.getMessage(), Toast.LENGTH_LONG).show();
+//            }
         }
     }
 
